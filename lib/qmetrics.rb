@@ -1,6 +1,12 @@
-require 'rails'
+# frozen_string_literal: true
 
+require 'active_support'
+require 'qmetrics/influx'
+require 'qmetrics/events'
+
+# lib/qmetrics.rb
 module Qmetrics
+  # rubocop:disable Style/ClassVars
   # Defines what kind of metric should catch inside ActionController
   mattr_accessor :action_controller
   @@action_controller = ['start_processing.action_controller']
@@ -32,6 +38,10 @@ module Qmetrics
   # Defines what kind of metric should catch inside ActiveStorage
   mattr_accessor :active_storage
   @@active_storage = []
+
+  mattr_accessor :db_config
+  @@db_config = { database: 'metrics' }
+  # rubocop:enable Style/ClassVars
 
   def self.setup
     yield self
