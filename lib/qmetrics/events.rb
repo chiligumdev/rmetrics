@@ -1,24 +1,23 @@
 # frozen_string_literal: true
-
 module Qmetrics
   # Handles action events across rails
   class Events
     attr_reader :db_client
 
     def organize_event(event)
-      {
-        values: {
+      act = {
+        action: {
           name: event.name,
           duration: event.duration
         }
       }
+      act[:action].merge!(event.payload)
+      act
     end
 
     def notification_subscription(action_name)
       ActiveSupport::Notifications.subscribe(action_name) do |*args|
         event = ActiveSupport::Notifications::Event.new(*args)
-        puts(event.name)
-        puts(event)
         @db_client.write_data(action_name, organize_event(event))
       end
     end
@@ -29,8 +28,44 @@ module Qmetrics
       end
     end
 
+    def view_subscribe_events
+      Qmetrics.active_view.each do |action|
+        notification_subscription(action.to_s)
+      end
+    end
+
     def record_subscribe_events
       Qmetrics.active_record.each do |action|
+        notification_subscription(action.to_s)
+      end
+    end
+
+    def mailer_subscribe_events
+      Qmetrics.action_mailer.each do |action|
+        notification_subscription(action.to_s)
+      end
+    end
+
+    def support_subscribe_events
+      Qmetrics.active_support.each do |action|
+        notification_subscription(action.to_s)
+      end
+    end
+
+    def job_subscribe_events
+      Qmetrics.active_job.each do |action|
+        notification_subscription(action.to_s)
+      end
+    end
+
+    def cable_subscribe_events
+      Qmetrics.action_cable.each do |action|
+        notification_subscription(action.to_s)
+      end
+    end
+
+    def storage_subscribe_events
+      Qmetrics.active_storage.each do |action|
         notification_subscription(action.to_s)
       end
     end
