@@ -1,17 +1,12 @@
 # frozen_string_literal: true
+
 module Qmetrics
   # Handles action events across rails
   class Events
     attr_reader :db_client
 
-    def organize_event(event)
-      act = {
-        values: {
-          duration: event.duration
-        }
-      }
-      act[:values].merge!(event.payload)
-      act
+    def initialize
+      @db_client = Qmetrics::Influx.new(Qmetrics.db_config)
     end
 
     def notification_subscription(action_name)
@@ -69,8 +64,16 @@ module Qmetrics
       end
     end
 
-    def initialize
-      @db_client = Qmetrics::Influx.new(Qmetrics.db_config)
+    private
+
+    def organize_event(event)
+      act = {
+        values: {
+          duration: event.duration
+        }
+      }
+      act[:values].merge!(event.payload)
+      act
     end
   end
 end

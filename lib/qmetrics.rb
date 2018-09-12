@@ -3,6 +3,7 @@
 require 'active_support'
 require 'qmetrics/influx'
 require 'qmetrics/events'
+require 'yaml'
 
 # lib/qmetrics.rb
 module Qmetrics
@@ -44,6 +45,9 @@ module Qmetrics
   # rubocop:enable Style/ClassVars
 
   def self.setup
-    yield self
+    config_file = YAML.load_file('config/qmetrics.yml')
+    config_file.each do |k, v|
+      send("#{k}=", v)
+    end
   end
 end
