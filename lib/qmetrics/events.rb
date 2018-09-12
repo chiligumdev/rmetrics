@@ -6,12 +6,11 @@ module Qmetrics
 
     def organize_event(event)
       act = {
-        action: {
-          name: event.name,
+        values: {
           duration: event.duration
         }
       }
-      act[:action].merge!(event.payload)
+      act[:values].merge!(event.payload)
       act
     end
 
