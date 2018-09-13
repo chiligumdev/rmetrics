@@ -45,9 +45,13 @@ module Qmetrics
   # rubocop:enable Style/ClassVars
 
   def self.setup
-    config_file = YAML.load_file('config/qmetrics.yml')
-    config_file.each do |k, v|
-      send("#{k}=", v)
+    if block_given?
+      yield self
+    else
+      config_file = YAML.load_file('config/qmetrics.yml')
+      config_file.each do |k, v|
+        send("#{k}=", v)
+      end
     end
   end
 end
