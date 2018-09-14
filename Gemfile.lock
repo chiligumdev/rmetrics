@@ -26,6 +26,7 @@ GEM
     influxdb (0.6.0)
     json (2.1.0)
     minitest (5.11.3)
+    rake (10.4.2)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -46,7 +47,9 @@ DEPENDENCIES
   activesupport
   coveralls
   influxdb
+  minitest (~> 5.11)
   qmetrics!
+  rake (~> 10.0)
 
 BUNDLED WITH
    1.16.3
