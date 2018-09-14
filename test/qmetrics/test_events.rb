@@ -1,6 +1,6 @@
-# test/test_events.rb
+# test/qmetrics/test_events.rb
 
-require_relative 'test_helper'
+require 'test_helper'
 require 'minitest/autorun'
 require 'qmetrics'
 
@@ -17,10 +17,11 @@ class TestEvents < Minitest::Test
       config.active_job = ['enqueue_at.active_job']
       config.action_cable = ['perform_action.action_cable']
       config.active_storage = ['service_upload.active_storage']
-      config.db_config = { username: ENV['INFLUX_USERNAME'],
+      config.db_config = { username: ENV['INFLUX_USER'],
                            password: ENV['INFLUX_PASSWORD'],
                            database: ENV['INFLUX_DATABASE'],
-                           host: ENV['INFLUX_PORT'], retry: 10 }
+                           host: ENV['INFLUX_HOST'],
+                           port: ENV['INFLUX_PORT'], retry: 10 }
     end
     @events = Qmetrics::Events.new
   end
@@ -95,5 +96,14 @@ class TestEvents < Minitest::Test
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
+  end
+
+  def test_organize_event
+    event = ActiveSupport::Notifications::Event.new('test', Time.now,
+                                                    Time.now, 'auhsuahsua',
+                                                    payload: { name: 'test' })
+    org_event = @events.send(:organize_event, event)
+    assert_equal event.duration, org_event[:values][:duration]
+    assert_equal event.payload[:payload], org_event[:values][:payload]
   end
 end
