@@ -1,8 +1,8 @@
-# test/qmetrics/test_events.rb
+# test/rmetrics/test_events.rb
 
 require 'test_helper'
 require 'minitest/autorun'
-require 'qmetrics'
+require 'rmetrics'
 # Test Influxdb class
 class TestInflux < Minitest::Test
   def setup
@@ -11,7 +11,7 @@ class TestInflux < Minitest::Test
                        database: ENV['INFLUX_DATABASE'],
                        host: ENV['INFLUX_HOST'],
                        port: ENV['INFLUX_PORT'], retry: 10 }
-    @influx_client = Qmetrics::Influx.new(influx_options)
+    @influx_client = Rmetrics::Influx.new(influx_options)
   end
 
   def test_write_data

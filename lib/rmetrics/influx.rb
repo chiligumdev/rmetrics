@@ -1,6 +1,6 @@
 require 'influxdb'
 
-module Qmetrics
+module Rmetrics
   # Handles the comunnication to Influx DB
   class Influx
     def initialize(options = {})

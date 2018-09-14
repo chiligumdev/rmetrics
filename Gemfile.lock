@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    qmetrics (0.1.0)
-      activesupport (~> 5.2.1)
+    rmetrics (0.1.0)
+      activesupport (~> 5.1)
       influxdb (~> 0.6.0)
 
 GEM
@@ -48,8 +48,8 @@ DEPENDENCIES
   coveralls
   influxdb
   minitest (~> 5.11)
-  qmetrics!
   rake (~> 10.0)
+  rmetrics!
 
 BUNDLED WITH
    1.16.3

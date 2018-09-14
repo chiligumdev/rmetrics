@@ -1,17 +1,17 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'qmetrics/version'
+require 'rmetrics/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'qmetrics'
-  spec.version       = Qmetrics::VERSION
+  spec.name          = 'rmetrics'
+  spec.version       = Rmetrics::VERSION
   spec.authors       = ['Guilherme Casimiro']
   spec.email         = ['guircasimiro@gmail.com']
   # rubocop:disable Metrics/LineLength
   spec.summary       = 'Catch and send your rails metrics to your influx database.'
   spec.description   = 'Catch and send your rails metrics to your influx database.'
   # rubocop:enable Metrics/LineLength
-  spec.homepage      = 'https://github.com/chiligumdev/qmetrics'
+  spec.homepage      = 'https://github.com/chiligumdev/rmetrics'
   spec.license       = 'MIT'
 
   if spec.respond_to?(:metadata)
@@ -31,6 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coveralls', '~> 0.7'
   spec.add_development_dependency 'minitest', '~> 5.11'
   spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_dependency 'activesupport', '~> 5.2.1'
+  spec.add_dependency 'activesupport', '~> 5.1'
   spec.add_dependency 'influxdb', '~> 0.6.0'
 end

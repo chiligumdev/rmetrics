@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'active_support'
-require 'qmetrics/influx'
-require 'qmetrics/events'
+require 'rmetrics/influx'
+require 'rmetrics/events'
 require 'yaml'
 
-# lib/qmetrics.rb
-module Qmetrics
+# lib/rmetrics.rb
+module Rmetrics
   # rubocop:disable Style/ClassVars
   # Defines what kind of metric should catch inside ActionController
   mattr_accessor :action_controller
@@ -48,7 +48,7 @@ module Qmetrics
     if block_given?
       yield self
     else
-      config_file = YAML.load_file('config/qmetrics.yml')
+      config_file = YAML.load_file('config/rmetrics.yml')
       config_file.each do |k, v|
         send("#{k}=", v)
       end

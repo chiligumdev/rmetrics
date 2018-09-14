@@ -1,14 +1,14 @@
-# test/qmetrics/test_events.rb
+# test/rmetrics/test_events.rb
 
 require 'test_helper'
 require 'minitest/autorun'
-require 'qmetrics'
+require 'rmetrics'
 
 # Tests all events handled by Active Support
 class TestEvents < Minitest::Test
   # rubocop:disable Metrics/MethodLength
   def setup
-    Qmetrics.setup do |config|
+    Rmetrics.setup do |config|
       config.action_controller = ['start_processing.action_controller']
       config.active_view = ['render_template.action_view']
       config.active_record = ['sql.active_record']
@@ -23,7 +23,7 @@ class TestEvents < Minitest::Test
                            host: ENV['INFLUX_HOST'],
                            port: ENV['INFLUX_PORT'], retry: 10 }
     end
-    @events = Qmetrics::Events.new
+    @events = Rmetrics::Events.new
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -36,7 +36,7 @@ class TestEvents < Minitest::Test
 
   def test_controller_subscribe_events
     actions_subs = @events.controller_subscribe_events
-    Qmetrics.action_controller.each do |action|
+    Rmetrics.action_controller.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -44,7 +44,7 @@ class TestEvents < Minitest::Test
 
   def test_view_subscribe_events
     actions_subs = @events.view_subscribe_events
-    Qmetrics.active_view.each do |action|
+    Rmetrics.active_view.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -52,7 +52,7 @@ class TestEvents < Minitest::Test
 
   def test_record_subscribe_events
     actions_subs = @events.record_subscribe_events
-    Qmetrics.active_record.each do |action|
+    Rmetrics.active_record.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -60,7 +60,7 @@ class TestEvents < Minitest::Test
 
   def test_mailer_subscribe_events
     actions_subs = @events.mailer_subscribe_events
-    Qmetrics.action_mailer.each do |action|
+    Rmetrics.action_mailer.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -68,7 +68,7 @@ class TestEvents < Minitest::Test
 
   def test_support_subscribe_events
     actions_subs = @events.support_subscribe_events
-    Qmetrics.active_support.each do |action|
+    Rmetrics.active_support.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -76,7 +76,7 @@ class TestEvents < Minitest::Test
 
   def test_job_subscribe_events
     actions_subs = @events.job_subscribe_events
-    Qmetrics.active_job.each do |action|
+    Rmetrics.active_job.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -84,7 +84,7 @@ class TestEvents < Minitest::Test
 
   def test_cable_subscribe_events
     actions_subs = @events.cable_subscribe_events
-    Qmetrics.action_cable.each do |action|
+    Rmetrics.action_cable.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end
@@ -92,7 +92,7 @@ class TestEvents < Minitest::Test
 
   def test_storage_subscribe_events
     actions_subs = @events.storage_subscribe_events
-    Qmetrics.active_storage.each do |action|
+    Rmetrics.active_storage.each do |action|
       assert_equal actions_subs.include?(action), true
       ActiveSupport::Notifications.unsubscribe(action)
     end

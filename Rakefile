@@ -9,7 +9,7 @@ Rake::TestTask.new do |t|
 end
 
 task :console do
-  exec 'irb -r qmetrics -I ./lib'
+  exec 'irb -r rmetrics -I ./lib'
 end
 
 require 'coveralls/rake/task'
