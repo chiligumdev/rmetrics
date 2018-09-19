@@ -12,7 +12,7 @@ module Rmetrics
     def notification_subscription(action_name)
       ActiveSupport::Notifications.subscribe(action_name) do |*args|
         event = ActiveSupport::Notifications::Event.new(*args)
-        @db_client.write_data(action_name, organize_event(event))
+        @db_client.write_data(action_name, event)
       end
     end
 
@@ -62,18 +62,6 @@ module Rmetrics
       Rmetrics.active_storage.each do |action|
         notification_subscription(action.to_s)
       end
-    end
-
-    private
-
-    def organize_event(event)
-      act = {
-        values: {
-          duration: event.duration
-        }
-      }
-      act[:values].merge!(event.payload)
-      act
     end
   end
 end

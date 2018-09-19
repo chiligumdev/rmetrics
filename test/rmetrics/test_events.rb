@@ -97,13 +97,4 @@ class TestEvents < Minitest::Test
       ActiveSupport::Notifications.unsubscribe(action)
     end
   end
-
-  def test_organize_event
-    event = ActiveSupport::Notifications::Event.new('test', Time.now,
-                                                    Time.now, 'auhsuahsua',
-                                                    payload: { name: 'test' })
-    org_event = @events.send(:organize_event, event)
-    assert_equal event.duration, org_event[:values][:duration]
-    assert_equal event.payload[:payload], org_event[:values][:payload]
-  end
 end
