@@ -31,7 +31,7 @@ class TestInflux < Minitest::Test
   def test_write_data
     event = ActiveSupport::Notifications::Event.new('test', Time.now, Time.now,
                                                     'test', @payload)
-    response = @influx_client.write_data('metrics', event)
+    response = @influx_client.write_data('test', event)
     assert_equal response.code, '204'
   end
 end

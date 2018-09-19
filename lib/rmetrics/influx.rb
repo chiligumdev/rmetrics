@@ -13,20 +13,30 @@ module Rmetrics
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     def adjust_values(act, payload)
       payload.each do |key, value|
-        if value.is_a?(Hash) || value.is_a?(Array)
-          act[key] = value
+        case value
+        when Hash
+          act[:tags].merge!(value.select { |_, v| v.is_a?(String) })
+        when Numeric || Integer || String || TrueClass || FalseClass
+          act[:values][key.to_sym] = value
+        when Symbol
+          act[:values][key.to_sym] = value.to_s
         else
-          act[:values].merge!(key: value)
+          next
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def organize_event(event)
       act = {
         values: {
           duration: event.duration
+        },
+        tags: {
+          name: event.name
         }
       }
       adjust_values(act, event.payload)
