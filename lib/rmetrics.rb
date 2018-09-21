@@ -45,13 +45,6 @@ module Rmetrics
   # rubocop:enable Style/ClassVars
 
   def self.setup
-    if block_given?
-      yield self
-    else
-      config_file = YAML.load_file('config/rmetrics.yml')
-      config_file.each do |k, v|
-        send("#{k}=", v)
-      end
-    end
+    yield self
   end
 end
