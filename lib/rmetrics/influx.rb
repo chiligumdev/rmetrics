@@ -19,7 +19,9 @@ module Rmetrics
         case value
         when Hash
           act[:tags].merge!(value.select { |_, v| v.is_a?(String) })
-        when Numeric || Integer || String || TrueClass || FalseClass
+        when Numeric, Integer
+          act[:values][key.to_sym] = value.to_f
+        when String, TrueClass, FalseClass
           act[:values][key.to_sym] = value
         when Symbol
           act[:values][key.to_sym] = value.to_s
